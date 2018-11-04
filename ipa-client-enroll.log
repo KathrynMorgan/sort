@@ -1,0 +1,16 @@
+krb5-user realmd samba corosync sssd sssd-tools sssd-krb5-common samba corosync freeipa-client
+samba-common packagekit samba-common-bin samba-libs adcli ntp
+echo "xenial-client.braincraft.io" >/etc/hostname 
+vim /etc/hosts
+ping xenial-client.braincraft.io
+dig xenial-client.braincraft.io
+dig +short xenial-client.braincraft.io
+dig +short -x xenial-client.braincraft.io AAAA
+dig +short -x xenial-client.braincraft.io A
+dig +short xenial-client.braincraft.io A
+vim /etc/ntp.conf 
+systemctl restart ntp
+vim /etc/realmd.conf
+vim /etc/krb5.conf 
+kinit admin@BRAINCRAFT.IO
+realm --verbose join ipa.braincraft.io --user-principal=UBUNTU/admin@BRAINCRAFT.IO

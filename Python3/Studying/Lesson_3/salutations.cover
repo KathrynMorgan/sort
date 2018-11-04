@@ -1,0 +1,100 @@
+       #!/usr/bin/env python3
+       # TODO
+       # getopts commandline flag and value passing
+       # demo classes for variables
+       #   EG:
+       #    - city
+       #    - last name
+       
+       # Import libraries
+>>>>>> import os
+>>>>>> import trace
+       
+       #################################################################################
+       # Define the "hello" function
+>>>>>> def print_hello_usr(usr_NAME, friend_NAME):                 # Notice variable names passed through function name brackets
+>>>>>>     os.system('clear')
+>>>>>>     print('Hello {}, How are you? '.format(friend_NAME))
+>>>>>>     print('My name is {}'.format(usr_NAME))
+       
+       #################################################################################
+       # Define the "hello" function
+>>>>>> def print_hello_world(usr_NAME):
+    1:     os.system('clear')
+    1:     print('>>  HELLO WERLD!', end=' ')
+    1:     print('My name is', usr_NAME, end='  <<   ;)')
+       
+       #################################################################################
+       # Ask friend what their name is
+>>>>>> def ask_friend_name(friend_NAME):
+>>>>>>     os.system('clear')                                      # Clear Terminal
+>>>>>>     if friend_NAME is None:                                 # TODO: change to while loop + add sanity check
+>>>>>>         friend_NAME = input('Hi Friend; what is your name? : ') # Request user input
+>>>>>>         return friend_NAME
+       
+       #################################################################################
+       # Ask friend what their name is
+>>>>>> def ask_usr_name(usr_NAME):
+    1:     os.system('clear')                                      # Clear Terminal
+    1:     if usr_NAME is None:                                    # TODO: change to while loop + add sanity check
+    1:         usr_NAME = input('First, what is your name? : ')    # Request user input
+    1:         return usr_NAME
+       
+       #################################################################################
+       # Request user commands
+       # Options include:
+       # - hello world
+       # - hello friend
+>>>>>> def req_command(usr_CMD, usr_NAME):
+       
+    1:     if usr_CMD is None:                                     # TODO: change to while loop + add sanity check
+    1:         usr_CMD = input('What would you like to do {0}? : '.format(usr_NAME))
+       
+    1:         if usr_CMD == 'hello world':                        # TODO: change to while loop + add sanity check
+       
+    1:             usr_NAME = ask_usr_name(usr_NAME)               # Get User Name
+    1:             print_hello_world(usr_NAME)                     # Print Salutations + User Name
+       
+>>>>>>         elif usr_CMD == 'hello human':
+       
+>>>>>>             usr_NAME = ask_usr_name(usr_NAME)               # Get User Name
+>>>>>>             friend_NAME = None
+>>>>>>             friend_NAME = ask_friend_name(friend_NAME)      # Get Friend Name
+       
+>>>>>>             print_hello_usr(usr_NAME, friend_NAME)          # Print Salutations + User Name
+       
+               else:
+>>>>>>             print('Sorry, that command was not understood, please try again...')
+       
+       #################################################################################
+       # Leading function to define base variables etc.
+       # Set Default Variables
+>>>>>> def main():
+           greetings = '''Hello, from here you can do a few things including:
+           Send a "hello world message"  [hello world]
+           Send a "hello human message"  [hello human]
+    1:     '''
+       
+    1:     os.system('clear')                                      # Clear Terminal
+       
+           # Set Default value of usr_NAME if NOT set at command line
+    1:     try:
+    1:         usr_NAME
+    1:     except NameError:
+    1:         usr_NAME = None
+       
+    1:     usr_CMD = None                                          # Set Default value of usr_CMD
+       
+    1:     print(greetings)
+    1:     req_command(usr_CMD, usr_NAME)
+       
+>>>>>> tracer = trace.Trace(
+>>>>>>     trace=0,
+>>>>>>     count=1)
+       
+       
+       #################################################################################
+       # Start Program
+>>>>>> tracer.run('main()')
+>>>>>> r = tracer.results()
+>>>>>> r.write_results(show_missing=True, coverdir=".")

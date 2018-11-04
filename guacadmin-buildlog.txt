@@ -1,0 +1,23 @@
+./configure --with-init-dir=/etc/init.d
+mkdir guacamole && cd guacamole
+cd guacamole && git clone https://github.com/apache/incubator-guacamole-server.git && cd incubator-guacamole-server
+autoreconf -fi
+./configure --with-init-dir=/etc/init.d
+
+make
+make install
+ldconfig
+cd ~/guacamole/
+cd incubator-guacamole-client/
+mvn package
+cp ~/guacamole/incubator-guacamole-client/guacamole/target/guacamole-0.9.*-incubating.war /var/lib/tomcat/webapps/guacamole.war
+mkdir -p ~/guacamole/sqlauth && cd ~/guacamole/sqlauth
+wget http://apache.mirrors.tds.net/incubator/guacamole/0.9.13-incubating/binary/guacamole-auth-jdbc-0.9.13-incubating.tar.gz
+tar -zxvf guacamole-auth-jdbc-*.tar.gz
+wget http://download.softagency.net/MySQL/Downloads/Connector-J/mysql-connector-java-6.0.6.tar.gz
+tar -zxvf mysql-connector-java-*.tar.gz
+sudo mkdir -p /usr/share/tomcat/.guacamole/{extensions,lib}
+sudo mv guacamole-auth-jdbc-*-incubating/mysql/guacamole-auth-jdbc-mysql-*-incubating.jar /usr/share/tomcat/.guacamole/extensions/
+sudo mv mysql-connector-java-*/mysql-connector-java-*-bin.jar /usr/share/tomcat/.guacamole/lib/
+cd
+sudo systemctl restart mariadb

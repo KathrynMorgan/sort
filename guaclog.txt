@@ -1,0 +1,35 @@
+adduser guacadmimn
+adduser guacadmimn
+yum -y install epel-release wget
+yum update -y
+wget -O /etc//yum.repos.d/home:felfert.repo http://download.opensuse.org/repositories/home:/felfert/CentOS_7/home:felfert.repo
+yum -y groupinstall "Development Tools"
+yum -y install cairo-devel freerdp-devel git java-1.8.0-openjdk.x86_64 libguac libguac-client-rdp libguac-client-ssh libguac-client-vnc libjpeg-turbo-devel libpng-devel libssh2-devel libtelnet-devel libvncserver-devel libwebp-devel libvorbis-devel mariadb-server maven openssl-devel pango-devel pulseaudio-libs-devel terminus-fonts tomcat tomcat-admin-webapps tomcat-webapps uuid-devel
+rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-1.el7.nux.noarch.rpm
+yum -y install ffmpeg-devel
+mysqladmin -u root password 
+mysqladmin -u root password ''
+mysqladmin -u root password $SQL_ROOT_PASSWD
+systemctl start mariadb
+systemctl enable mariadb
+mysql -u root -p
+CREATE DATABASE IF NOT EXISTS guacdb DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+GRANT SELECT,INSERT,UPDATE,DELETE ON guacdb.* TO 'guacuser'@'localhost' IDENTIFIED BY 'guacpass' WITH GRANT OPTION;
+flush privileges;
+quit
+
+cd /home/guacadmin/guacamole/sqlauth/guacamole-auth-jdbc-*-incubating/mysql/schema/
+cat ./*.sql | mysql -u root -p guacdb
+mkdir -p /etc/guacamole/ && vi /etc/guacamole/guacamole.properties
+
+ln -s /etc/guacamole/guacamole.properties /usr/share/tomcat/.guacamole/
+reboot
+navigate to http://youripaddress:8080/guacamole
+Default login:
+Username: admin
+Password: password
+
+## Additional option to make guacamole the default uri/web_root
+mv /usr/share/tomcat/webapps/ROOT /usr/share/tomcat/webapps/ROOT_OLD
+mv /usr/share/tomcat/webapps/guacamole.war /usr/share/tomcat/webapps/ROOT.war
+systemctl restart tomcat
